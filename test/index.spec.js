@@ -57,6 +57,7 @@ describe('snowman', () => {
         node: undefined,
         sequence: 0,
       };
+      const generated = [ ];
       const it = idSequence();
       // Loop for more than max sequence.
       for(let idx=0; idx < MAX_SEQUENCE+1000; idx++) {
@@ -77,6 +78,9 @@ describe('snowman', () => {
           // Sequence should rise within each moment.
           expect(sequence).to.be.gt(last.sequence);
         }
+        // Should not repeat values.
+        expect(generated.includes(value)).to.be.false;
+        generated.push(value);
         Object.assign(last, {
           value, ts: timestamp, node, seq: sequence,
         });
