@@ -17,7 +17,7 @@ const {
 /**
  * Tests.
  */
-describe('snowman', () => {
+describe('@theroyalwhee0/snowman', () => {
   describe('idSequence', () => {
     it('should be a function', () => {
       expect(idSequence).to.be.a('function');
