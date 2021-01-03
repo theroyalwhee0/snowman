@@ -1,0 +1,38 @@
+{
+  "name": "@theroyalwhee0/snowman",
+  "version": "0.0.1",
+  "description": "ID Generator",
+  "main": "src/index.js",
+  "author": "Adam Mill <theroyalwhee0@gmail.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "id",
+    "snowflake"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theroyalwhee0/snowman.git"
+  },
+  "bugs": {
+    "url": "https://github.com/theroyalwhee0/snowman/issues"
+  },
+  "homepage": "https://github.com/theroyalwhee0/snowman#readme",
+  "devDependencies": {
+    "chai": "4.2.0",
+    "debug": "4.3.1",
+    "eslint": "7.17.0",
+    "mocha": "8.2.1",
+    "sinon": "9.2.2"
+  },
+  "dependencies": {
+    "@theroyalwhee0/istype": "1.0.0"
+  },
+  "scripts": {
+    "test": "mocha --sort --recursive --check-leaks",
+    "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
+    "lint": "eslint src/**/*.js test/**/*.js"
+  }
+}
