@@ -57,7 +57,7 @@ describe('@theroyalwhee0/snowman', () => {
         node: undefined,
         sequence: 0,
       };
-      const generated = [ ];
+      const generated = new Set();
       const it = idSequence();
       // Loop for more than max sequence.
       for(let idx=0; idx < MAX_SEQUENCE+1000; idx++) {
@@ -79,16 +79,14 @@ describe('@theroyalwhee0/snowman', () => {
           expect(sequence).to.be.gt(last.sequence);
         }
         // Should not repeat values.
-        expect(generated.includes(value)).to.be.false;
-        generated.push(value);
+        expect(generated.has(value)).to.be.false;
+        generated.add(value);
         Object.assign(last, {
           value, ts: timestamp, node, seq: sequence,
         });
-        if(idx % 1000 === 0) {
-          // Sleep every once and a while.
-          await new Promise((resolve) => {
-            setTimeout(resolve, 4);
-          });
+        if(idx % 500 === 0) {
+          // Rest every once and a while.
+          await new Promise(setImmediate);
         }
       }
     });
