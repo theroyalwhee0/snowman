@@ -6,7 +6,7 @@
  * Imports.
  */
 const { describe, it, expect } = require('./testing');
-const { idSequence, explode } = require('../src/index');
+const { idSequence, explodeId, explode } = require('../src/index');
 const {
   DEFAULT_OFFSET,
   OFFSET_RESERVED, OFFSET_TIMESTAMP, OFFSET_NODE, OFFSET_SEQUENCE,
@@ -91,33 +91,37 @@ describe('@theroyalwhee0/snowman', () => {
       }
     });
   });
-  describe('explode', () => {
+  describe('explodeId', () => {
     it('should be a function', () => {
-      expect(explode).to.be.a('function');
-      expect(explode.length).to.equal(2);
+      expect(explodeId).to.be.a('function');
+      expect(explodeId.length).to.equal(2);
+      expect(explodeId.name).to.equal('explodeId');
+    });
+    it('should be aliased to explode', () => {
+      expect(explode).to.equal(explodeId);
     });
     describe('should handle valid values', () => {
       it('like id "266746406522281985n"', () => {
-        const results = explode(266746406522281985n);
+        const results = explodeId(266746406522281985n);
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ 1609635449611, 763, 1, true ]);
       });
       it('like id "181193933807616"', () => {
-        const results = explode(181193933807616n);
+        const results = explodeId(181193933807616n);
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ 1577858400000, 123, 0, true ]);
       });
       it('like id "181193933808615n"', () => {
-        const results = explode(181193933808615n);
+        const results = explodeId(181193933808615n);
         expect(results).to.eql([ 1577858400000, 123, 999, true ]);
       });
       it('with maximum value', () => {
         const id = BigInt(0x7FFFFFFFFFFFFFFFn); // NOTE: This matches MASK_ID.
-        const results = explode(id);
+        const results = explodeId(id);
         expect(results).to.eql([ MAX_TIMESTAMP+DEFAULT_OFFSET, MAX_NODE, MAX_SEQUENCE, true ]);
       });
       it('that are valid non-bigints', () => {
-        const results = explode(181193933807616); // Note: This is not a bigint.
+        const results = explodeId(181193933807616); // Note: This is not a bigint.
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ 1577858400000, 123, 0, true ]);
       });
@@ -125,19 +129,19 @@ describe('@theroyalwhee0/snowman', () => {
     describe('should handle invalid values', () => {
       it('like id "0"', () => {
         // NOTE: ID 0 is never valid because it's timestamp would be zero which is not valid.
-        const results = explode(0);
+        const results = explodeId(0);
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ undefined, undefined, undefined, false ]);
       });
       it('like id "-1000"', () => {
         // Negative values are invalid.
-        const results = explode(-1000);
+        const results = explodeId(-1000);
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ undefined, undefined, undefined, false ]);
       });
       it('like id "invalid"', () => {
         // Other types are invalid.
-        const results = explode('invalid');
+        const results = explodeId('invalid');
         expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ undefined, undefined, undefined, false ]);
       });

@@ -13,15 +13,15 @@ yarn add @theroyalwhee0/snowman
 
 
 ## Documentation
-There is no documentation at the moment. The idSequence function creates a iterable sequence of IDs.
+The idSequence function creates a iterable sequence of IDs. The explodeId function breaks the ID into it's parts and validates it.
 
 
 ## Usage
 ```
-const { idSequence, explode } = require('@theroyalwhee0/snowman');
+const { idSequence, explodeId } = require('@theroyalwhee0/snowman');
 const accountIds = idSequence();
 const { value } = accountIds.next();
-const [ timestamp, node, sequence, isValid ] = explode(value);
+const [ timestamp, node, sequence, isValid ] = explodeId(value);
 console.log("ID: ", value);
 console.log("Parts: ", { timestamp, node, sequence, isValid });
 console.log("Timestamp Date: ", new Date(timestamp));
@@ -50,6 +50,7 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- 2021-01-07 v0.0.2 - Change explode to explodeId, alias to explode.
 - 2021-01-03 v0.0.1 - Initial release.
 
 

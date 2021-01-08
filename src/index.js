@@ -69,7 +69,7 @@ function* idSequence(options) {
 /**
  * Explode an ID into parts and valid flag,
  */
-function explode(id, options) {
+function explodeId(id, options) {
   options = Object.assign({}, defaultOptions, options);
   const { offset } = options;
   if(isNumber(id)) {
@@ -98,5 +98,7 @@ function explode(id, options) {
  * Exports.
  */
 module.exports = {
-  idSequence, explode,
+  idSequence,
+  explodeId,
+  explode: explodeId,
 };
