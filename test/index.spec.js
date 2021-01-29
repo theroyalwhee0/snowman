@@ -136,13 +136,11 @@ describe('@theroyalwhee0/snowman', () => {
       it('like id "-1000"', () => {
         // Negative values are invalid.
         const results = explodeId(-1000);
-        expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ undefined, undefined, undefined, false ]);
       });
       it('like id "invalid"', () => {
         // Other types are invalid.
         const results = explodeId('invalid');
-        expect(results).to.be.an('array').and.to.have.a.lengthOf(4);
         expect(results).to.eql([ undefined, undefined, undefined, false ]);
       });
     });

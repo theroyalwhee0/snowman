@@ -1,9 +1,11 @@
 /**
  * @theroyalwhee0/snowman:src/index.js
- *
+ */
+
+/**
  * Bits:
  * 00-00 (01) = Reserved.
- * 01-40 (40) = Timestamp (~34.8 years)
+ * 01-40 (40) = MS Timestamp (~34.8 years)
  * 41-51 (10) = Node (1024)
  * 52-64 (13) = Sequence (8192)
  */
@@ -17,6 +19,7 @@ const {
   DEFAULT_OFFSET,
   OFFSET_RESERVED, OFFSET_TIMESTAMP, OFFSET_NODE, OFFSET_SEQUENCE,
   MASK_RESERVED, MASK_TIMESTAMP, MASK_NODE, MASK_SEQUENCE,
+  RESERVED,
   MIN_ID, MIN_TIMESTAMP, MIN_NODE, MIN_SEQUENCE,
   MAX_ID, MAX_TIMESTAMP, MAX_NODE, MAX_SEQUENCE,
 } = require('./constants');
@@ -32,22 +35,29 @@ const defaultOptions = {
 
 /**
  * ID Sequence generator.
+ * @param {object} Options, optional.
+ * @param {number} options.node The numeric ID of the node (0-1023).
+ * @param {number} options.offset The timestamp offset to use as zero time.
+ * @param {function} options.getTimestamp A function that returns the current MS timestamp.
+ * @param {boolean} options.singleNode Turn into a single node instance automatically populating node as sequence wraps.
+ * @return {Iterable<bigint>} The resulting ID.
  */
 function* idSequence(options) {
   options = Object.assign({}, defaultOptions, options);
-  const { node:nodeOpt, offset, getTimestamp } = options;
-  let seq = 0n;
+  const { node:nodeOpt, offset, getTimestamp, singleNode } = options;
+  let seq = MIN_SEQUENCE;
   let lastTimestamp;
-  const node = BigInt(nodeOpt);
-  if(node < MIN_NODE || node > MAX_NODE) {
-    throw new Error(`Node "$(node)" is out of range.`);
-  }
+  // NOTE: singleNode instances start at MAX_NODE and count down.
+  let node = singleNode === true ? MAX_NODE: BigInt(nodeOpt);
   while(1) {
     const now = getTimestamp();
     const timestamp = BigInt(now-offset);
     if(lastTimestamp !== timestamp) {
-      seq = 0n;
+      seq = MIN_SEQUENCE;
       lastTimestamp = timestamp;
+      if(singleNode) {
+        node = MAX_NODE;
+      }
     }
     const id =
       ((timestamp << OFFSET_TIMESTAMP) & MASK_TIMESTAMP) |
@@ -56,13 +66,19 @@ function* idSequence(options) {
     ;
     if(timestamp < MIN_TIMESTAMP || timestamp > MAX_TIMESTAMP) {
       throw new Error(`Timestamp "${timestamp}" out of range."`);
+    } else if(node < MIN_NODE || node > MAX_NODE) {
+      throw new Error(`Node "${node}" is out of range.`);
     } else if(seq < MIN_SEQUENCE || seq > MAX_SEQUENCE) {
-      throw new Error(`Sequence number "$(seq)" is out of range.`);
+      throw new Error(`Sequence number "${seq}" is out of range.`);
     } else if(id < MIN_ID || id > MAX_ID) {
-      throw new Error(`ID "$(id)" is out of range.`);
+      throw new Error(`ID "${id}" is out of range.`);
     }
     yield id;
     seq += 1n;
+    if(singleNode && seq > MAX_SEQUENCE) {
+      node -= 1;
+      seq = MIN_SEQUENCE;
+    }
   }
 }
 
@@ -80,7 +96,7 @@ function explodeId(id, options) {
     const timestamp = Number((id & MASK_TIMESTAMP) >> OFFSET_TIMESTAMP);
     const node = Number((id & MASK_NODE) >> OFFSET_NODE);
     const sequence = Number((id & MASK_SEQUENCE) >> OFFSET_SEQUENCE);
-    const isValid = reserved === 0 &&
+    const isValid = reserved === RESERVED &&
       (id >= MIN_ID && id <= MAX_ID) &&
       (timestamp >= MIN_TIMESTAMP && timestamp <= MAX_TIMESTAMP) &&
       (node >= MIN_NODE && node <= MAX_NODE) &&

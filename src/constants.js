@@ -15,10 +15,11 @@ const OFFSET_RESERVED   = 39n;
 const OFFSET_TIMESTAMP  = 23n;
 const OFFSET_NODE       = 13n;
 const OFFSET_SEQUENCE   = 0n;
+const RESERVED          = 0;                          // Reserved may only be zero.
 const MIN_TIMESTAMP     = 1;                          // 0 = offset time
 const MIN_NODE          = 0;
-const MIN_SEQUENCE      = 0;
 const MIN_ID            = 0;
+const MIN_SEQUENCE      = 0n;
 const MAX_TIMESTAMP     = 1099511627775;              // 2**40-1, ~34.8 years
 const MAX_NODE          = 1023;                       // 2**10-1
 const MAX_SEQUENCE      = 8191;                       // 2**13-1
@@ -31,6 +32,7 @@ module.exports = {
   DEFAULT_OFFSET,
   OFFSET_RESERVED, OFFSET_TIMESTAMP, OFFSET_NODE, OFFSET_SEQUENCE,
   MASK_ID, MASK_RESERVED, MASK_TIMESTAMP, MASK_NODE, MASK_SEQUENCE,
+  RESERVED,
   MIN_ID, MIN_TIMESTAMP, MIN_NODE, MIN_SEQUENCE,
   MAX_ID, MAX_TIMESTAMP, MAX_NODE, MAX_SEQUENCE,
 };
