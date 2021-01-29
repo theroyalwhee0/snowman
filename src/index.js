@@ -48,7 +48,7 @@ function* idSequence(options) {
   let seq = MIN_SEQUENCE;
   let lastTimestamp;
   // NOTE: singleNode instances start at MAX_NODE and count down.
-  let node = singleNode === true ? MAX_NODE: BigInt(nodeOpt);
+  let node = singleNode === true ? MAX_NODE : BigInt(nodeOpt);
   while(1) {
     const now = getTimestamp();
     const timestamp = BigInt(now-offset);
@@ -76,7 +76,7 @@ function* idSequence(options) {
     yield id;
     seq += 1n;
     if(singleNode && seq > MAX_SEQUENCE) {
-      node -= 1;
+      node -= 1n;
       seq = MIN_SEQUENCE;
     }
   }

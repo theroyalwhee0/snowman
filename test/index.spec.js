@@ -12,7 +12,15 @@ const {
   OFFSET_RESERVED, OFFSET_TIMESTAMP, OFFSET_NODE, OFFSET_SEQUENCE,
   MASK_RESERVED, MASK_TIMESTAMP, MASK_NODE, MASK_SEQUENCE,
   MAX_TIMESTAMP, MAX_NODE, MAX_SEQUENCE,
+  RESERVED,
+  MIN_SEQUENCE,
 } = require('../src/constants');
+
+/**
+ * Numeric version of bigint value for strict equality and test checks.
+ */
+const MAX_NODE_NUM = Number(MAX_NODE);
+const MIN_SEQUENCE_NUM = Number(MIN_SEQUENCE);
 
 /**
  * Tests.
@@ -39,19 +47,19 @@ describe('@theroyalwhee0/snowman', () => {
       expect(value).to.be.a('bigint');
       expect(done).to.equal(false);
       const reserved = Number((value & MASK_RESERVED) >> OFFSET_RESERVED);
-      expect(reserved).to.equal(0);
+      expect(reserved).to.equal(RESERVED);
       const ts = Number((value & MASK_TIMESTAMP) >> OFFSET_TIMESTAMP);
       expect(ts).to.be.gte(0).and.lte(MAX_TIMESTAMP);
       expect(ts).to.equal(SIX_HOURS);
       const node = Number((value & MASK_NODE) >> OFFSET_NODE);
-      expect(node).to.be.gte(0).and.lte(MAX_NODE);
+      expect(node).to.be.gte(0).and.lte(MAX_NODE_NUM);
       expect(node).to.equal(123);
       const seq = Number((value & MASK_SEQUENCE) >> OFFSET_SEQUENCE);
       expect(seq).to.be.gte(0).and.lte(MAX_SEQUENCE);
       expect(seq).to.equal(0);
     });
     it('should generate a sequence of valid ids over time', async () => {
-      let last = {
+      const last = {
         value: undefined,
         timestamp: 0,
         node: undefined,
@@ -65,7 +73,7 @@ describe('@theroyalwhee0/snowman', () => {
         expect(value).to.be.a('bigint');
         expect(done).to.equal(false);
         const reserved = Number((value & MASK_RESERVED) >> OFFSET_RESERVED);
-        expect(reserved).to.equal(0);
+        expect(reserved).to.equal(RESERVED);
         const timestamp = Number((value & MASK_TIMESTAMP) >> OFFSET_TIMESTAMP);
         expect(timestamp).to.be.gte(0).and.lte(MAX_TIMESTAMP);
         // Timestamp should rise over time.
@@ -82,12 +90,75 @@ describe('@theroyalwhee0/snowman', () => {
         expect(generated.has(value)).to.be.false;
         generated.add(value);
         Object.assign(last, {
-          value, ts: timestamp, node, seq: sequence,
+          value, ts: timestamp, node, sequence,
         });
         if(idx % 500 === 0) {
           // Rest every once and a while.
           await new Promise(setImmediate);
         }
+      }
+    });
+    it('should support single-node instances', () => {
+      const TWELVE_HOURS = 12*60*60*1000;
+      const it = idSequence({
+        singleNode: true,
+        getTimestamp: () => (1577836800000 + TWELVE_HOURS),
+      });
+      const { value, done } = it.next();
+      expect(value).to.be.a('bigint');
+      expect(done).to.equal(false);
+      const reserved = Number((value & MASK_RESERVED) >> OFFSET_RESERVED);
+      expect(reserved).to.equal(RESERVED);
+      const ts = Number((value & MASK_TIMESTAMP) >> OFFSET_TIMESTAMP);
+      expect(ts).to.be.gte(0).and.lte(MAX_TIMESTAMP);
+      expect(ts).to.equal(TWELVE_HOURS);
+      const node = Number((value & MASK_NODE) >> OFFSET_NODE);
+      expect(node).to.be.gte(0).and.lte(MAX_NODE_NUM);
+      expect(node).to.equal(MAX_NODE_NUM);
+      const seq = Number((value & MASK_SEQUENCE) >> OFFSET_SEQUENCE);
+      expect(seq).to.be.gte(0).and.lte(MAX_SEQUENCE);
+      expect(seq).to.equal(0);
+    });
+    it('should generate sequence in single-node mode', async () => {
+      const last = {
+        value: undefined,
+        timestamp: 0,
+        node: undefined,
+        sequence: 0,
+      };
+      const generated = new Set();
+      const SEVEN_HOURS = 7*60*60*1000;
+      const it = idSequence({
+        singleNode: true,
+        getTimestamp: () => (1577836800000 + SEVEN_HOURS),
+      });
+      // Loop for more than max sequence.
+      for(let idx=0; idx < MAX_SEQUENCE+1000; idx++) {
+        const shouldHaveWrapped = idx <= MAX_SEQUENCE ? false : true;
+        const { value, done } = it.next();
+        expect(value).to.be.a('bigint');
+        expect(done).to.equal(false);
+        const reserved = Number((value & MASK_RESERVED) >> OFFSET_RESERVED);
+        expect(reserved).to.equal(RESERVED);
+        const timestamp = Number((value & MASK_TIMESTAMP) >> OFFSET_TIMESTAMP);
+        expect(timestamp).to.equal(SEVEN_HOURS);
+        const node = Number((value & MASK_NODE) >> OFFSET_NODE);
+        expect(node).to.be.gte(0).and.lte(MAX_NODE_NUM);
+        expect(node).to.equal(MAX_NODE_NUM - (shouldHaveWrapped ? 1 : 0));
+        const sequence = Number((value & MASK_SEQUENCE) >> OFFSET_SEQUENCE);
+        expect(sequence).to.be.gte(0).and.lte(MAX_SEQUENCE);
+        if(last.sequence === MAX_SEQUENCE) {
+          expect(shouldHaveWrapped).to.be.true;
+          expect(sequence).to.equal(MIN_SEQUENCE_NUM);
+        } else {
+          expect(sequence).to.be.gte(last.sequence);
+        }
+        // Should not repeat values.
+        expect(generated.has(value)).to.be.false;
+        generated.add(value);
+        Object.assign(last, {
+          value, node, sequence,
+        });
       }
     });
   });
@@ -118,7 +189,12 @@ describe('@theroyalwhee0/snowman', () => {
       it('with maximum value', () => {
         const id = BigInt(0x7FFFFFFFFFFFFFFFn); // NOTE: This matches MASK_ID.
         const results = explodeId(id);
-        expect(results).to.eql([ MAX_TIMESTAMP+DEFAULT_OFFSET, MAX_NODE, MAX_SEQUENCE, true ]);
+        expect(results).to.eql([
+          MAX_TIMESTAMP+DEFAULT_OFFSET,
+          MAX_NODE_NUM,
+          MAX_SEQUENCE,
+          true,
+        ]);
       });
       it('that are valid non-bigints', () => {
         const results = explodeId(181193933807616); // Note: This is not a bigint.

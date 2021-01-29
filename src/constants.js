@@ -17,11 +17,11 @@ const OFFSET_NODE       = 13n;
 const OFFSET_SEQUENCE   = 0n;
 const RESERVED          = 0;                          // Reserved may only be zero.
 const MIN_TIMESTAMP     = 1;                          // 0 = offset time
-const MIN_NODE          = 0;
+const MIN_NODE          = 0n;
 const MIN_ID            = 0;
 const MIN_SEQUENCE      = 0n;
 const MAX_TIMESTAMP     = 1099511627775;              // 2**40-1, ~34.8 years
-const MAX_NODE          = 1023;                       // 2**10-1
+const MAX_NODE          = 1023n;                      // 2**10-1
 const MAX_SEQUENCE      = 8191;                       // 2**13-1
 const MAX_ID            = 9223372036854775807n;       // 2n**63n-1n
 
