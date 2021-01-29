@@ -63,5 +63,4 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 ## Legal & License
 Copyright 2020-2021 Adam Mill
 
-This library is released under Apache 2 license.
-See LICENSE for more details.
+This library is released under Apache 2 license. See [LICENSE](https://github.com/theroyalwhee0/snowman/blob/master/LICENSE) for more details.
