@@ -11,7 +11,7 @@
 /**
  * Imports.
  */
-const { isNumber } = require('@theroyalwhee0/istype');
+const { isInteger } = require('@theroyalwhee0/istype');
 const { isBigInt } = require('./istype');
 const {
   DEFAULT_OFFSET,
@@ -72,7 +72,7 @@ function* idSequence(options) {
 function explodeId(id, options) {
   options = Object.assign({}, defaultOptions, options);
   const { offset } = options;
-  if(isNumber(id)) {
+  if(isInteger(id)) {
     id = BigInt(id);
   }
   if(isBigInt(id)) {
