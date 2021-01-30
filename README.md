@@ -50,13 +50,13 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
-- 2021-01-29 - v0.0.3
+- v0.0.3 - 2021-01-29
   - Fix error messaging.
   - Add support for singleNode generators.
   - Improve comments.
-- 2021-01-07 - v0.0.2
+- v0.0.2 - 2021-01-07
   - Change explode to explodeId, alias to explode.
-- 2021-01-03 - v0.0.1
+- v0.0.1 - 2021-01-03
   - Initial release.
 
 
