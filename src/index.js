@@ -91,6 +91,11 @@ function* idSequence(options) {
 
 /**
  * Explode an ID into parts and valid flag,
+ * @param {any} id An ID to explode and validate.
+ * @param {object} options Options, optional.
+ * @param {number} options.offset The timestamp offset to use as zero time.
+ * @returns {array} Tuple of unix timestamp, node ID,
+ * sequence ID, and valid. If invalid the numbers will be undefined.
  */
 function explodeId(id, options) {
   options = Object.assign({}, defaultOptions, options);
@@ -121,6 +126,11 @@ function explodeId(id, options) {
  * Explode an ID into parts and valid flag,
  * @deprecated Use explodeId function instead.
  * @function explode
+ * @param {any} id An ID to explode and validate.
+ * @param {object} options Options, optional.
+ * @param {number} options.offset The timestamp offset to use as zero time.
+ * @returns {array} Tuple of unix timestamp, node ID,
+ * sequence ID, and valid. If invalid the numbers will be undefined.
  */
 const explode = explodeId;
 

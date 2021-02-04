@@ -1,6 +1,6 @@
 {
   "name": "@theroyalwhee0/snowman",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ID Generator",
   "main": "src/index.js",
   "author": "Adam Mill <hismajesty@theroyalwhee.com>",
@@ -10,6 +10,7 @@
     "snowflake"
   ],
   "directories": {
+    "doc": "doc",
     "test": "test"
   },
   "repository": {
@@ -22,11 +23,9 @@
   "homepage": "https://github.com/theroyalwhee0/snowman#readme",
   "devDependencies": {
     "chai": "4.2.0",
-    "debug": "4.3.1",
     "eslint": "7.17.0",
     "jsdoc": "3.6.6",
-    "mocha": "8.2.1",
-    "sinon": "9.2.2"
+    "mocha": "8.2.1"
   },
   "dependencies": {
     "@theroyalwhee0/istype": "1.0.0"
@@ -35,6 +34,7 @@
     "test": "mocha --sort --recursive --check-leaks",
     "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
     "lint": "eslint src/ test/",
-    "docs": "jsdoc --destination docs/ src/*.js"
+    "doc": "jsdoc --pedantic --readme ./README.md --recurse --destination doc/ src/",
+    "dryrun": "npm test && npm run lint && npm run doc && npm audit && npm publish --dry-run"
   }
 }

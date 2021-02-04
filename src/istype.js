@@ -9,9 +9,9 @@
 
 /**
  * Is the type a BigInt.
+ * @private
  * @param {any} value The value to check type of.
  * @returns {boolean} Is value a bigint?
- * @private
  */
 function isBigInt(value) {
   return typeof value === 'bigint';

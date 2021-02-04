@@ -50,6 +50,9 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- v0.0.4 - 2021-02-04
+  - Add documentation.
+  - Remove unused dev depends.
 - v0.0.3 - 2021-01-29
   - Fix error messaging.
   - Add support for singleNode generators.
