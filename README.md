@@ -13,7 +13,9 @@ yarn add @theroyalwhee0/snowman
 
 
 ## Documentation
-The idSequence function creates a iterable sequence of IDs. The explodeId function breaks the ID into it's parts and validates it.
+The idSequence() function creates a iterable sequence of IDs. The explodeId() function breaks the ID into it's parts and validates it.
+
+[API Documentation](https://theroyalwhee0.github.io/snowman/)
 
 
 ## Usage
