@@ -10,7 +10,7 @@
     "snowflake"
   ],
   "directories": {
-    "doc": "doc",
+    "doc": "docs",
     "test": "test"
   },
   "repository": {
@@ -34,7 +34,7 @@
     "test": "mocha --sort --recursive --check-leaks",
     "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
     "lint": "eslint src/ test/",
-    "doc": "jsdoc --pedantic --readme ./README.md --recurse --destination doc/ src/",
+    "docs": "jsdoc --pedantic --readme ./README.md --recurse --destination docs/ src/",
     "dryrun": "npm test && npm run lint && npm run doc && npm audit && npm publish --dry-run"
   }
 }
