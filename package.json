@@ -35,6 +35,6 @@
     "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
     "lint": "eslint src/ test/",
     "docs": "jsdoc --pedantic --readme ./README.md --recurse --destination docs/ src/",
-    "dryrun": "npm test && npm run lint && npm run doc && npm audit && npm publish --dry-run"
+    "dryrun": "npm test && npm run lint && npm run docs && npm audit && npm publish --dry-run"
   }
 }
