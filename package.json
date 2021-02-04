@@ -24,6 +24,7 @@
     "chai": "4.2.0",
     "debug": "4.3.1",
     "eslint": "7.17.0",
+    "jsdoc": "3.6.6",
     "mocha": "8.2.1",
     "sinon": "9.2.2"
   },
@@ -33,6 +34,7 @@
   "scripts": {
     "test": "mocha --sort --recursive --check-leaks",
     "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
-    "lint": "eslint src/ test/"
+    "lint": "eslint src/ test/",
+    "docs": "jsdoc --destination docs/ src/*.js"
   }
 }
