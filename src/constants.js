@@ -1,7 +1,7 @@
 /**
  * @file Snowman constants.
  * @author Adam Mill <hismajesty@theroyalwhee.com>
- * @copyright Copyright 2021 Adam MillS
+ * @copyright Copyright 2021 Adam Mill
  * @license Apache-2.0
  */
 
