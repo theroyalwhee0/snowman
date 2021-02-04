@@ -3,6 +3,7 @@
  * @author Adam Mill <hismajesty@theroyalwhee.com>
  * @copyright Copyright 2021 Adam MillS
  * @license Apache-2.0
+ * @private
  */
 
 // TODO: Move to @theroyalwhee0/istype

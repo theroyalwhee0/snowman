@@ -3,7 +3,7 @@
   "version": "0.0.4",
   "description": "ID Generator",
   "main": "src/index.js",
-  "author": "Adam Mill <hismajesty@theroyalwhee.com>",
+  "author": "Adam Mill <hismajesty@theroyalwhee.com> (https://www.theroyalwhee.com)",
   "license": "Apache-2.0",
   "keywords": [
     "id",
