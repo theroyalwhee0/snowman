@@ -1,6 +1,6 @@
 /**
  * @file Snowman ID Generator
- * @version v0.0.4
+ * @version v0.0.5
  * @author Adam Mill <hismajesty@theroyalwhee.com>
  * @copyright Copyright 2021 Adam Mill
  * @license Apache-2.0
