@@ -17,8 +17,7 @@
 /**
  * Imports.
  */
-const { isInteger } = require('@theroyalwhee0/istype');
-const { isBigInt } = require('./istype');
+const { isBigInt, isInteger } = require('@theroyalwhee0/istype');
 const {
   DEFAULT_OFFSET,
   OFFSET_RESERVED, OFFSET_TIMESTAMP, OFFSET_NODE, OFFSET_SEQUENCE,

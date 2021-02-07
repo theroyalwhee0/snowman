@@ -1,7 +1,7 @@
 {
   "name": "@theroyalwhee0/snowman",
   "version": "0.0.4",
-  "description": "ID Generator",
+  "description": "A distributed unique 64 bit ID generator.",
   "main": "src/index.js",
   "author": "Adam Mill <hismajesty@theroyalwhee.com> (https://www.theroyalwhee.com)",
   "license": "Apache-2.0",
@@ -28,7 +28,7 @@
     "mocha": "8.2.1"
   },
   "dependencies": {
-    "@theroyalwhee0/istype": "1.0.0"
+    "@theroyalwhee0/istype": "2.0.1"
   },
   "scripts": {
     "test": "mocha --sort --recursive --check-leaks",
