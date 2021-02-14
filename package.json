@@ -1,6 +1,6 @@
 {
   "name": "@theroyalwhee0/snowman",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A distributed unique 64 bit ID generator.",
   "main": "src/index.js",
   "author": "Adam Mill <hismajesty@theroyalwhee.com> (https://www.theroyalwhee.com)",
@@ -28,13 +28,13 @@
     "mocha": "8.2.1"
   },
   "dependencies": {
-    "@theroyalwhee0/istype": "2.0.1"
+    "@theroyalwhee0/istype": "2.0.2"
   },
   "scripts": {
     "test": "mocha --sort --recursive --check-leaks",
     "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
     "lint": "eslint src/ test/",
-    "docs": "jsdoc --pedantic --readme ./README.md --recurse --destination docs/ src/",
+    "docs": "jsdoc -c .jsdoc.conf.json",
     "dryrun": "npm test && npm run lint && npm run docs && npm audit && npm publish --dry-run"
   }
 }

@@ -52,6 +52,9 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- v0.0.6 - 2021-02-14
+  - Remove date from documentation.
+  - Bump istype version.
 - v0.0.5 - 2021-02-06
   - Upgrade istype and remove package specific isBigInt.
 - v0.0.4 - 2021-02-04
