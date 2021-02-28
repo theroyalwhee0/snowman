@@ -1,6 +1,6 @@
 {
   "name": "@theroyalwhee0/snowman",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A distributed unique 64 bit ID generator.",
   "main": "src/index.js",
   "author": "Adam Mill <hismajesty@theroyalwhee.com> (https://www.theroyalwhee.com)",

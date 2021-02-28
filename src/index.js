@@ -44,13 +44,14 @@ const defaultOptions = {
  * @param {object} options Options, optional.
  * @param {number} options.node The numeric ID of the node (0-1023).
  * @param {number} options.offset The timestamp offset to use as zero time.
+ * @param {'string'|'bigint'} options.as Cast generated ID. Defaults to bigint.
  * @param {function} options.getTimestamp A function that returns the current MS timestamp.
  * @param {boolean} options.singleNode Turn into a single node instance automatically populating node as sequence wraps.
  * @yields {bigint} The resulting ID.
  */
 function* idSequence(options) {
   options = Object.assign({}, defaultOptions, options);
-  const { node:nodeOpt, offset, getTimestamp, singleNode } = options;
+  const { as, node:nodeOpt, offset, getTimestamp, singleNode } = options;
   let seq = MIN_SEQUENCE;
   let lastTimestamp;
   // NOTE: singleNode instances start at MAX_NODE and count down.
@@ -79,7 +80,11 @@ function* idSequence(options) {
     } else if(id < MIN_ID || id > MAX_ID) {
       throw new Error(`ID "${id}" is out of range.`);
     }
-    yield id;
+    if(as === 'string') {
+      yield id.toString();
+    } else {
+      yield id;
+    }
     seq += 1n;
     if(singleNode && seq > MAX_SEQUENCE) {
       node -= 1n;

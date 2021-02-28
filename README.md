@@ -52,6 +52,8 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- v0.0.7 - 2021-02-20
+  - Add support for automatic casting as string.
 - v0.0.6 - 2021-02-14
   - Remove date from documentation.
   - Bump istype version.

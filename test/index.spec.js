@@ -98,6 +98,13 @@ describe('@theroyalwhee0/snowman', () => {
         }
       }
     });
+    it('should support casting IDs to string', () => {
+      const it = idSequence({ as: 'string' });
+      const { value, done } = it.next();
+      expect(value).to.be.a('string');
+      expect(done).to.equal(false);
+      expect(value).to.match(/^[1-9][0-9]*$/);
+    });
     it('should support single-node instances', () => {
       const TWELVE_HOURS = 12*60*60*1000;
       const it = idSequence({
