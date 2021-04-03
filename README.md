@@ -52,6 +52,11 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- v0.0.8 - 2021-04-02
+  - Port to TypeScript.
+  - Deprecate options.as, use idStringSequence instead.
+  - Add string support to explodeId.
+  - Improve tests.
 - v0.0.7 - 2021-02-20
   - Add support for automatic casting as string.
 - v0.0.6 - 2021-02-14

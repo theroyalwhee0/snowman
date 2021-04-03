@@ -1,36 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>JSDoc: Source: index.js</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
-</head>
-
-<body>
-
-<div id="main">
-
-    <h1 class="page-title">Source: index.js</h1>
-
-    
-
-
-
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>"use strict";
+"use strict";
 /**
  * @file Snowman ID Generator
  * @version v0.0.8
- * @author Adam Mill &lt;hismajesty@theroyalwhee.com>
+ * @author Adam Mill <hismajesty@theroyalwhee.com>
  * @copyright Copyright 2021 Adam Mill
  * @license Apache-2.0
  */
@@ -96,19 +68,19 @@ function* idSequence(options) {
             }
         }
         const id = 0n +
-            ((timestamp &lt;&lt; constants_js_1.OFFSET_TIMESTAMP) &amp; constants_js_1.MASK_TIMESTAMP) |
-            ((node &lt;&lt; constants_js_1.OFFSET_NODE) &amp; constants_js_1.MASK_NODE) |
-            ((seq &lt;&lt; constants_js_1.OFFSET_SEQUENCE) &amp; constants_js_1.MASK_SEQUENCE);
-        if (timestamp &lt; constants_js_1.MIN_TIMESTAMP || timestamp > constants_js_1.MAX_TIMESTAMP) {
+            ((timestamp << constants_js_1.OFFSET_TIMESTAMP) & constants_js_1.MASK_TIMESTAMP) |
+            ((node << constants_js_1.OFFSET_NODE) & constants_js_1.MASK_NODE) |
+            ((seq << constants_js_1.OFFSET_SEQUENCE) & constants_js_1.MASK_SEQUENCE);
+        if (timestamp < constants_js_1.MIN_TIMESTAMP || timestamp > constants_js_1.MAX_TIMESTAMP) {
             throw new Error(`Timestamp "${timestamp}" out of range."`);
         }
-        else if (node &lt; constants_js_1.MIN_NODE || node > constants_js_1.MAX_NODE) {
+        else if (node < constants_js_1.MIN_NODE || node > constants_js_1.MAX_NODE) {
             throw new Error(`Node "${node}" is out of range.`);
         }
-        else if (seq &lt; constants_js_1.MIN_SEQUENCE || seq > constants_js_1.MAX_SEQUENCE) {
+        else if (seq < constants_js_1.MIN_SEQUENCE || seq > constants_js_1.MAX_SEQUENCE) {
             throw new Error(`Sequence number "${seq}" is out of range.`);
         }
-        else if (id &lt; constants_js_1.MIN_ID || id > constants_js_1.MAX_ID) {
+        else if (id < constants_js_1.MIN_ID || id > constants_js_1.MAX_ID) {
             throw new Error(`ID "${id}" is out of range.`);
         }
         if (as === CastAs.string) {
@@ -118,7 +90,7 @@ function* idSequence(options) {
             yield id;
         }
         seq += 1n;
-        if (singleNode &amp;&amp; seq > constants_js_1.MAX_SEQUENCE) {
+        if (singleNode && seq > constants_js_1.MAX_SEQUENCE) {
             node -= 1n;
             seq = constants_js_1.MIN_SEQUENCE;
         }
@@ -157,22 +129,22 @@ exports.idStringSequence = idStringSequence;
 function explodeId(id, options) {
     options = Object.assign({}, defaultOptions, options);
     const { offset } = options;
-    if (istype_1.isString(id) &amp;&amp; /^[1-9][0-9]*$/.test(id)) {
+    if (istype_1.isString(id) && /^[1-9][0-9]*$/.test(id)) {
         id = BigInt(id);
     }
     if (istype_1.isInteger(id)) {
         id = BigInt(id);
     }
     if (istype_1.isBigInt(id)) {
-        const reserved = Number((id &amp; constants_js_1.MASK_RESERVED) >> constants_js_1.OFFSET_RESERVED);
-        const timestamp = Number((id &amp; constants_js_1.MASK_TIMESTAMP) >> constants_js_1.OFFSET_TIMESTAMP);
-        const node = Number((id &amp; constants_js_1.MASK_NODE) >> constants_js_1.OFFSET_NODE);
-        const sequence = Number((id &amp; constants_js_1.MASK_SEQUENCE) >> constants_js_1.OFFSET_SEQUENCE);
-        const isValid = reserved === constants_js_1.RESERVED &amp;&amp;
-            (id >= constants_js_1.MIN_ID &amp;&amp; id &lt;= constants_js_1.MAX_ID) &amp;&amp;
-            (timestamp >= constants_js_1.MIN_TIMESTAMP &amp;&amp; timestamp &lt;= constants_js_1.MAX_TIMESTAMP) &amp;&amp;
-            (node >= constants_js_1.MIN_NODE &amp;&amp; node &lt;= constants_js_1.MAX_NODE) &amp;&amp;
-            (sequence >= constants_js_1.MIN_SEQUENCE &amp;&amp; sequence &lt;= constants_js_1.MAX_SEQUENCE);
+        const reserved = Number((id & constants_js_1.MASK_RESERVED) >> constants_js_1.OFFSET_RESERVED);
+        const timestamp = Number((id & constants_js_1.MASK_TIMESTAMP) >> constants_js_1.OFFSET_TIMESTAMP);
+        const node = Number((id & constants_js_1.MASK_NODE) >> constants_js_1.OFFSET_NODE);
+        const sequence = Number((id & constants_js_1.MASK_SEQUENCE) >> constants_js_1.OFFSET_SEQUENCE);
+        const isValid = reserved === constants_js_1.RESERVED &&
+            (id >= constants_js_1.MIN_ID && id <= constants_js_1.MAX_ID) &&
+            (timestamp >= constants_js_1.MIN_TIMESTAMP && timestamp <= constants_js_1.MAX_TIMESTAMP) &&
+            (node >= constants_js_1.MIN_NODE && node <= constants_js_1.MAX_NODE) &&
+            (sequence >= constants_js_1.MIN_SEQUENCE && sequence <= constants_js_1.MAX_SEQUENCE);
         const unixTimestamp = timestamp + offset;
         if (isValid) {
             return [unixTimestamp, node, sequence, true];
@@ -192,26 +164,4 @@ exports.explodeId = explodeId;
  * sequence ID, and valid. If invalid the numbers will be undefined.
  */
 exports.explode = explodeId;
-//# sourceMappingURL=index.js.map</code></pre>
-        </article>
-    </section>
-
-
-
-
-</div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CastAs">CastAs</a></li><li><a href="global.html#explode">explode</a></li><li><a href="global.html#explodeId">explodeId</a></li><li><a href="global.html#idSequence">idSequence</a></li><li><a href="global.html#idStringSequence">idStringSequence</a></li></ul>
-</nav>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Apr 03 2021 09:04:49 GMT-0400 (Eastern Daylight Time)
-</footer>
-
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
-</body>
-</html>
+//# sourceMappingURL=index.js.map

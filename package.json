@@ -1,8 +1,9 @@
 {
   "name": "@theroyalwhee0/snowman",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A distributed unique 64 bit ID generator.",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Adam Mill <hismajesty@theroyalwhee.com> (https://www.theroyalwhee.com)",
   "license": "Apache-2.0",
   "keywords": [
@@ -22,19 +23,27 @@
   },
   "homepage": "https://github.com/theroyalwhee0/snowman#readme",
   "devDependencies": {
-    "chai": "4.2.0",
-    "eslint": "7.17.0",
+    "@theroyalwhee0/tobelike": "0.0.2",
+    "@types/jest": "26.0.21",
+    "@typescript-eslint/eslint-plugin": "4.18.0",
+    "@typescript-eslint/parser": "4.18.0",
+    "concurrently": "6.0.0",
+    "eslint": "7.22.0",
+    "jest": "26.6.3",
     "jsdoc": "3.6.6",
-    "mocha": "8.2.1"
+    "typescript": "4.2.3"
   },
   "dependencies": {
-    "@theroyalwhee0/istype": "2.0.2"
+    "@theroyalwhee0/istype": "3.0.0"
   },
   "scripts": {
-    "test": "mocha --sort --recursive --check-leaks",
-    "test-watch": "mocha --watch --reporter=dot --sort --recursive --check-leaks",
+    "build": "tsc && mkdir -p ./dist && cp ./build/src/* ./dist/",
+    "test": "tsc && jest",
     "lint": "eslint src/ test/",
-    "docs": "jsdoc -c .jsdoc.conf.json",
-    "dryrun": "npm test && npm run lint && npm run docs && npm audit && npm publish --dry-run"
+    "test-watch": "npm run build && concurrently 'tsc --watch' 'jest --watchAll'",
+    "package": "npm run clean-build && npm run dryrun",
+    "docs": "jsdoc --pedantic --readme ./README.md --recurse --destination docs/ dist/",
+    "clean-build": "mkdir -p dist/ build/ docs/ && rm -fR build/* && rm -f dist/* && npm run build && npm run docs",
+    "dryrun": "npm prune && npm audit && npm run lint && npm test && npm publish --dry-run"
   }
 }
