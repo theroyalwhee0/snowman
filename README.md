@@ -5,11 +5,11 @@ A distributed unique 64 bit ID generator. Inspired by Sony's Sonyflake and Twitt
 
 
 ## Installation
-npm install @theroyalwhee0/snowman
+`npm install @theroyalwhee0/snowman`
 
 *or*
 
-yarn add @theroyalwhee0/snowman
+`yarn add @theroyalwhee0/snowman`
 
 
 ## Documentation
@@ -52,6 +52,8 @@ Running ```npm run test``` will run the test suite under Mocha. Running ```npm r
 
 
 ## History
+- v1.0.0 - 2022-06-02
+  - Bump depends for security.
 - v0.0.8 - 2021-04-02
   - Port to TypeScript.
   - Deprecate options.as, use idStringSequence instead.
